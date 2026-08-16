@@ -1,0 +1,68 @@
+from typing import List
+
+
+class Sort:
+
+    def merge_sort(self, arr: List[int]) -> List[int]:
+        # Base case
+        if len(arr) <= 1:
+            return arr
+
+        # Find middle
+        mid = len(arr) // 2
+
+        # Divide the array
+        left = self.merge_sort(arr[:mid])
+        right = self.merge_sort(arr[mid:])
+
+        # Merge sorted halves
+        return self.merge(left, right)
+
+    def merge(self, left: List[int], right: List[int]) -> List[int]:
+        result = []
+        i = 0
+        j = 0
+
+        while i < len(left) and j < len(right):
+            if left[i] <= right[j]:
+                result.append(left[i])
+                i += 1
+            else:
+                result.append(right[j])
+                j += 1
+
+        # Add remaining elements
+        result.extend(left[i:])
+        result.extend(right[j:])
+
+        return result
+
+    def quick_sort(self, arr: List[int]) -> List[int]:
+        # Base case
+        if len(arr) <= 1:
+            return arr
+
+        # Choose last element as pivot
+        pivot = arr[-1]
+
+        # Elements smaller/equal and greater than pivot
+        smaller = [x for x in arr[:-1] if x <= pivot]
+        greater = [x for x in arr[:-1] if x > pivot]
+
+        # Recursively sort and combine
+        return self.quick_sort(smaller) + [pivot] + self.quick_sort(greater)
+
+
+# Main program
+if __name__ == "__main__":
+    arr = [38, 27, 43, 3, 9, 82, 10]
+
+    sorter = Sort()
+
+    print("Original array:", arr)
+
+    merge_result = sorter.merge_sort(arr)
+    print("Merge Sort:", merge_result)
+
+    quick_result = sorter.quick_sort(arr)
+    print("Quick Sort:", quick_result)
